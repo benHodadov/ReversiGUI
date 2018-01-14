@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameController">
+   <children>
+      <Label fx:id="score1" layoutX="532.0" layoutY="73.0" text="Label" textAlignment="CENTER" />
+      <Label fx:id="score2" layoutX="532.0" layoutY="115.0" text="Label" textAlignment="CENTER" />
+      <Label layoutX="380.0" layoutY="32.0" text="Current player:" />
+      <Label fx:id="currentPlayer" layoutX="532.0" layoutY="33.0" text="Label" />
+      <Label fx:id="firstPlayer" layoutX="380.0" layoutY="72.0" text=" player score:" />
+      <Label fx:id="secondPlayer" layoutX="380.0" layoutY="114.0" text=" player score:" />
+      <Button fx:id="goMenuButton" layoutX="419.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#goToMenu" prefHeight="25.0" prefWidth="116.0" text="Back to menu" />
+   </children>
+</AnchorPane>
