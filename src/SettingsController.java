@@ -19,7 +19,7 @@ import static java.awt.Color.*;
  */
 public class SettingsController implements Initializable {
     private ObservableList<Integer> sizesList = FXCollections.observableArrayList
-            (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+            (4, 6, 8, 10, 12, 14, 16, 18, 20);
     private ObservableList<String> colorsList = FXCollections.observableArrayList
             ("black", "blue", "cyan", "darkGray", "gray", "green",
                     "lightGray", "magenta", "orange", "pink", "red", "white", "yellow");

@@ -17,7 +17,6 @@ import java.awt.event.ActionEvent;
 
 
 public class main extends Application {
-    public static int length = 8;
 
     public static void main(String[] args) {
         //Game g = new Game();

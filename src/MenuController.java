@@ -31,7 +31,7 @@ public class MenuController implements Initializable {
     @FXML
     void goSettings() {
         try {
-            Stage stage = (Stage) quitButton.getScene().getWindow();
+            Stage stage = (Stage) settingsHyperlink.getScene().getWindow();
             //stage.close();
             AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("Settings.fxml"));
             Scene scene = new Scene(root,600,400);
@@ -47,7 +47,7 @@ public class MenuController implements Initializable {
     @FXML
     void startGame() {
         try {
-            Stage stage = (Stage) quitButton.getScene().getWindow();
+            Stage stage = (Stage) startHyperlink.getScene().getWindow();
             //stage.close();
             AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("Game.fxml"));
             Scene scene = new Scene(root,600,400);

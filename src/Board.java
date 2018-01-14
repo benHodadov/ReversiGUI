@@ -6,19 +6,22 @@ import javafx.scene.layout.GridPane;
  */
 public class Board {
     private char[][] board;
+    private int size;
 
-    public Board() {
-        board = new char[main.length][main.length];
-        for (int i = 0; i < main.length; i++) {
-            for (int j = 0; j < main.length; j++) {
+    public Board(int size) {
+        this.size = size;
+        board = new char[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 board[i][j] = ' ';
             }
         }
+        int x = size / 2;
 
-        put(4, 4, 'O');
-        put(4, 5, 'X');
-        put(5, 4, 'X');
-        put(5, 5, 'O');
+        put(x, x, 'O');
+        put(x, x + 1, 'X');
+        put(x + 1, x, 'X');
+        put(x + 1, x + 1, 'O');
     }
 
     public void put(int row, int col, char sign) {
@@ -32,15 +35,15 @@ public class Board {
     public void print() {
         System.out.println();
         System.out.print(" | ");
-        for (int i = 1; i <= main.length; i++) {
+        for (int i = 1; i <= size; i++) {
             System.out.print(i + " | ");
         }
         System.out.println();
         System.out.println("----------------------------------");
 
-        for (int i = 0; i < main.length; i++) {
+        for (int i = 0; i < size; i++) {
             System.out.print((i+1) + "| ");
-            for (int j = 0; j < main.length; j++) {
+            for (int j = 0; j < size; j++) {
                 if (board[i][j] == 'O') {
                     System.out.print("O | ");
                 } else if (board[i][j] == 'X') {
@@ -51,5 +54,9 @@ public class Board {
             }
             System.out.println("\n----------------------------------");
         }
+    }
+
+    public int getSize() {
+        return size;
     }
 }

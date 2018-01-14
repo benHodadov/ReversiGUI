@@ -13,7 +13,7 @@ public class Game {
     Game() {
         this.p1 = new Player('X');
         this.p2 = new Player('O');
-        this.b = new Board();
+        this.b = new Board(4);
         this.gl = new GameLogic();
     }
 
@@ -116,7 +116,7 @@ public class Game {
 
     public void turnDiscsFromRight(GameLogic gl, Board b, int r, int c, Player p) {
         if (gl.checkRight(b, r, c, p)) {
-            for (int i = c + 1; i <= main.length; i++) {
+            for (int i = c + 1; i <= b.getSize(); i++) {
                 if (b.getSide(r, i) != ' ') {
                     if (b.getSide(r, i) != b.getSide(r, c)) {
                         b.put(r, i, p.getSign());
@@ -146,7 +146,7 @@ public class Game {
 
     public void turnDiscsFromDown(GameLogic gl, Board b, int r, int c, Player p) {
         if (gl.checkDown(b, r, c, p)) {
-            for (int i = r + 1; i <= main.length; i++) {
+            for (int i = r + 1; i <= b.getSize(); i++) {
                 if (b.getSide(i, c) != ' ') {
                     if (b.getSide(i, c) != b.getSide(r, c)) {
                         b.put(i, c, p.getSign());
@@ -176,7 +176,7 @@ public class Game {
 
     public void turnDiscsFromUpRight(GameLogic gl, Board b, int r, int c, Player p) {
         if (gl.checkUpRight(b, r, c, p)) {
-            for (int i = r - 1, j = c + 1; i > 0 && j <= main.length; i--, j++) {
+            for (int i = r - 1, j = c + 1; i > 0 && j <= b.getSize(); i--, j++) {
                 if (b.getSide(i, j) != ' ') {
                     if (b.getSide(i, j) != b.getSide(r, c)) {
                         b.put(i, j, p.getSign());
@@ -191,7 +191,7 @@ public class Game {
 
     public void turnDiscsFromDownLeft(GameLogic gl, Board b, int r, int c, Player p) {
         if (gl.checkDownLeft(b, r, c, p)) {
-            for (int i = r + 1, j = c - 1; i <= main.length && j > 0; i++, j--) {
+            for (int i = r + 1, j = c - 1; i <= b.getSize() && j > 0; i++, j--) {
                 if (b.getSide(i, j) != ' ') {
                     if (b.getSide(i, j) != b.getSide(r, c)) {
                         b.put(i, j, p.getSign());
@@ -206,7 +206,7 @@ public class Game {
 
     public void turnDiscsFromDownRight(GameLogic gl, Board b, int r, int c, Player p) {
         if (gl.checkDownRight(b, r, c, p)) {
-            for (int i = r + 1, j = c + 1; i <= main.length && j <= main.length; i++, j++) {
+            for (int i = r + 1, j = c + 1; i <= b.getSize() && j <= b.getSize(); i++, j++) {
                 if (b.getSide(i, j) != ' ') {
                     if (b.getSide(i, j) != b.getSide(r, c)) {
                         b.put(i, j, p.getSign());
@@ -226,8 +226,8 @@ public class Game {
 
     public void findWinner() {
         int countP1 = 0, countP2 = 0;
-        for(int i = 1; i <= main.length; i ++) {
-            for (int j = 1; j <= main.length; j++) {
+        for(int i = 1; i <= b.getSize(); i ++) {
+            for (int j = 1; j <= b.getSize(); j++) {
                 if (this.b.getSide(i, j) == 'X') {
                     countP1++;
                 }
