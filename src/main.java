@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 public class main extends Application {
 
     public static void main(String[] args) {
-        //Game g = new Game();
+        //Game g = new Game(3);
         //g.run();
         launch(args);
     }

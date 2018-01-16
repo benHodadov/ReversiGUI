@@ -17,13 +17,14 @@ public class Position {
         return this.col;
     }
 
-
-
     public void print() {
         System.out.print("(" + this.row + "," + this.col + ")");
     }
 
     public boolean isEqual(Position other) {
-        return (this.getRow() == other.getRow()) && (this.getCol() == other.getCol());
+        if ((this.getRow() == other.getRow()) && (this.getCol() == other.getCol())) {
+            return true;
+        }
+        return false;
     }
 }

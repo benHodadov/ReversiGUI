@@ -1,12 +1,16 @@
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Created by Barak on 08-Jan-18.
  */
-public class Board {
+public class Board extends GridPane {
     private char[][] board;
     private int size;
+    private Position clicked;
 
     public Board(int size) {
         this.size = size;
@@ -22,6 +26,16 @@ public class Board {
         put(x, x + 1, 'X');
         put(x + 1, x, 'X');
         put(x + 1, x + 1, 'O');
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Board.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+
+        /*try {
+            fxmlLoader.load();
+        } catch (Exception exception) {
+            System.out.println("Error on creating board");
+        }*/
     }
 
     public void put(int row, int col, char sign) {
@@ -58,5 +72,54 @@ public class Board {
 
     public int getSize() {
         return size;
+    }
+
+    public void draw() {
+        Settings settings = new Settings();
+        Color c1 = GameController.getColorByName(settings.player_1_color);
+        Color c2 = GameController.getColorByName(settings.player_2_color);
+        Color bg = GameController.getColorByName("lightGray");
+
+        this.getChildren().clear();
+
+        double height = this.getPrefHeight();
+        double width  = this.getPrefWidth();
+
+        double cellHeight = height / board.length;
+        double cellWidth  = width  / board.length;
+
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                Rectangle r;
+                if (board[i][j] == 'X') {
+                    //Rectangle r = new Rectangle(cellWidth, cellHeight);
+                    r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
+                    this.add(r, j, i);
+                    r.setFill(c1);
+                } else if (board[i][j] == 'O') {
+                    r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
+                    this.add(r, j, i);
+                    r.setFill(c2);
+                } else {
+                    r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
+                    this.add(r, j, i);
+                    r.setFill(bg);
+                }
+                final int finalI = i;
+                final int finalJ = j;
+                r.addEventHandler(MouseEvent.MOUSE_CLICKED, b -> { this.clicked = new Position(finalI, finalJ); });
+
+
+            //    this.setGridLinesVisible(true);
+            }
+            //this.setGridLinesVisible(true);
+        }
+        this.setGridLinesVisible(true);
+    }
+
+    public Position getClicked() {
+        Position temp = this.clicked;
+        return new Position(temp.getRow() + 1, temp.getCol() + 1);
     }
 }

@@ -1,3 +1,7 @@
+import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -5,33 +9,57 @@ import java.util.Scanner;
  * Created by benho on 08/01/2018.
  */
 public class Game {
-    Player p1;
-    Player p2;
-    Board b;
-    GameLogic gl;
+    private Player p1;
+    private Player p2;
 
-    Game() {
+    public Board getBoard() {
+        return this.b;
+    }
+
+    private Board b;
+    private GameLogic gl;
+
+    Game(int boardSize) {
         this.p1 = new Player('X');
         this.p2 = new Player('O');
-        this.b = new Board(4);
+        this.b = new Board(boardSize);
         this.gl = new GameLogic();
     }
 
+
     public void run() {
-        Player playing = p1;
+        final Player[] playing = {p1};
         System.out.println("Start game:");
         System.out.println("player1: " + p1.getSign() + ", player2: " + p2.getSign() + "\n***********************");
 
-        while (!this.endGame()) {
-            this.playOneTurn(gl, b, playing);
-            playing = this.otherPlayer(playing);
-        }
-        b.print();
-        this.findWinner();
+        this.b.setOnMouseClicked(e -> {
+        //this.b.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            if (!endGame()) {
+                boolean isPlayed = this.playOneTurn(gl, b, playing[0]);
+                if (isPlayed) {
+                    playing[0] = this.otherPlayer(playing[0]);
+                }
+            } else {
+                // game over
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+                alert.setTitle("Game finished!");
+                alert.setHeaderText(findWinner());
+                alert.setContentText("Player 1 score = " + getScore(p1) + "\nPlayer 2 score = " + getScore(p2));
+                alert.showAndWait();
+                b.print();
+                this.findWinner();
+                return;
+            }
+        });
     }
 
-    public void playOneTurn(GameLogic gl, Board b, Player p) {
+
+
+    public boolean playOneTurn(GameLogic gl, Board b, Player p) {
         System.out.println("Current board:");
+        b.draw();
+        b.setGridLinesVisible(true);
         b.print();
 
         System.out.println(p.getSign() + ": It's your move.\nYour possible moves: ");
@@ -40,9 +68,9 @@ public class Game {
         // if any of the moves are legal return 0.
         if (v.size() == 0) {
             System.out.println("No possible moves. Play passes back to the other player. Press any key to continue.");
-            Scanner reader = new Scanner(System.in);
-            char c = reader.next().charAt(0);
-            return;
+            //Scanner reader = new Scanner(System.in);
+            //char c = reader.next().charAt(0);
+            return true;
         }
         // print the options
         for (int i = 0; i < v.size(); i++) {
@@ -54,36 +82,30 @@ public class Game {
         }
 
         System.out.println("\nPlease enter your move row,col: ");
-        int r, c;
-        Scanner scn = new Scanner(System.in);
-        r = scn.nextInt();
-        c = scn.nextInt();
-        Position selectedPosition = new Position(r, c);
 
-        boolean isValid = false;
+        final Position[] selectedPosition = {this.getPlace()};
+        System.out.println("i=" + selectedPosition[0].getRow() + ",j=" + selectedPosition[0].getCol());
+        //System.exit(0);
+
+        final boolean[] isValid = {false};
         for (int i = 0; i < v.size(); i++) {
-            if (selectedPosition.isEqual(v.get(i))) {
-                isValid = true;
+            if (selectedPosition[0].isEqual(v.get(i))) {
+                isValid[0] = true;
                 //play.
-                this.putAndTurnOver(gl, b, r, c, p);
-            }
-        }
 
-        while (!isValid) {
-            System.out.print("The selected position is not valid.\nPlease enter your move row,col: ");
-            scn = new Scanner(System.in);
-            r = scn.nextInt();
-            c = scn.nextInt();
-            selectedPosition = new Position(r, c);
-            for (int i = 0; i < v.size(); i++) {
-                if (selectedPosition.isEqual(v.get(i))) {
-                    isValid = true;
-                    //play.
-                    this.putAndTurnOver(gl, b, r, c, p);
-                    break;
-                }
+                this.putAndTurnOver(gl, b, selectedPosition[0].getRow(), selectedPosition[0].getCol(), p);
+                b.draw();
+                b.gridLinesVisibleProperty().set(true);
+                return true;
             }
         }
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Oops, not valid move");
+        alert.setContentText("Please choose again");
+
+        alert.showAndWait();
+        return false;
     }
 
     public void putAndTurnOver(GameLogic gl,Board b, int r, int c, Player p) {
@@ -224,33 +246,42 @@ public class Game {
                 && (this.gl.optionalMoves(this.b, this.p2).size() == 0));
     }
 
-    public void findWinner() {
-        int countP1 = 0, countP2 = 0;
+    public int getScore(Player p) {
+        int count = 0;
         for(int i = 1; i <= b.getSize(); i ++) {
             for (int j = 1; j <= b.getSize(); j++) {
-                if (this.b.getSide(i, j) == 'X') {
-                    countP1++;
-                }
-			else if (this.b.getSide(i, j) == 'O') {
-                    countP2++;
+                if (this.b.getSide(i, j) == p.getSign()) {
+                    count++;
                 }
             }
         }
+        return count;
+    }
+
+    public String findWinner() {
+        int countP1 = getScore(p1);
+        int countP2 = getScore(p2);
 
         if (countP1 > countP2) {
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX\nPlayer 1 is the winner !!\nXXXXXXXXXXXXXXXXXXXXXXXXX");
-        }
-        else if (countP1 < countP2) {
-            System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOO\nPlayer 2 is the winner !!\nOOOOOOOOOOOOOOOOOOOOOOOOO");
+            //System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX\nPlayer 1 is the winner !!\nXXXXXXXXXXXXXXXXXXXXXXXXX");
+            return "Player 1 is the winner !!";
+        } else if (countP1 < countP2) {
+            //System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOO\nPlayer 2 is the winner !!\nOOOOOOOOOOOOOOOOOOOOOOOOO");
+            return "Player 2 is the winner !!";
         } else {
-            System.out.println("-------------------------\nIt's a draw !!\n-------------------------");
+            //System.out.println("-------------------------\nIt's a draw !!\n-------------------------");
+            return "It's a draw !!";
         }
     }
 
     public Player otherPlayer(Player p) {
-        if (p.getSign() == (this.p1).getSign()) {
+        if (p.getSign() == this.p1.getSign()) {
             return this.p2;
         }
         return this.p1;
+    }
+
+    public Position getPlace() {
+        return this.b.getClicked();
     }
 }

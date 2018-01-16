@@ -4,23 +4,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by benho on 13/01/2018.
+ * Created by ben hodadov on 13/01/2018.
  */
 public class GameController implements Initializable {
+    private Game game;
     @FXML
-    private GridPane board;
+    GridPane boardPane;
     @FXML
     private Button goMenuButton;
     @FXML
@@ -33,8 +34,6 @@ public class GameController implements Initializable {
     private Label score1;
     @FXML
     private Label score2;
-
-    private Board b;
 
 
     @FXML
@@ -65,7 +64,7 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Settings settings = new Settings();
-        b = new Board(settings.boardSize);
+        game = new Game(settings.boardSize);
         firstPlayer.setText(settings.player_1_color + " player score:");
         secondPlayer.setText(settings.player_2_color + " player score:");
 
@@ -76,45 +75,79 @@ public class GameController implements Initializable {
         //double height = board.getScene().getWindow().getHeight();
         //double width  = board.getScene().getWindow().getWidth();
         //double cellSize = Math.min(height, width) / settings.boardSize;
+        game.getBoard().setPrefWidth(350);
+        game.getBoard().setPrefHeight(350);
+        double h = 350 / settings.boardSize;
+        double w = 350 / settings.boardSize;
         for (int i = 0; i < settings.boardSize; i++) {
-            RowConstraints row = new RowConstraints(20);
-            ColumnConstraints col = new ColumnConstraints(20);
-            board.getRowConstraints().add(row);
-            board.getColumnConstraints().add(col);
+            RowConstraints row = new RowConstraints(h);
+            ColumnConstraints col = new ColumnConstraints(w);
+            game.getBoard().getRowConstraints().add(row);
+            game.getBoard().getColumnConstraints().add(col);
         }
-        board.getColumnConstraints().remove(0);
+        //game.getBoard().getColumnConstraints().remove(0);
+        boardPane.getChildren().add(0, game.getBoard());
+
+        // draw board
+        game.getBoard().draw();
+
+
+        //get the place pressed
+        game.getBoard().addEventHandler(MouseEvent.MOUSE_CLICKED, e ->{
+            Position p = game.getBoard().getClicked();
+        });
+
+        /* board resize
+            game.getBoard().widthProperty().addListener((observable, oldValue, newValue) -> {
+                double boardNewWidth = newValue.doubleValue() - 120;
+                game.getBoard().setPrefWidth(boardNewWidth);
+                game.getBoard().draw(c1, c2, bg);
+            });
+
+            game.getBoard().heightProperty().addListener((observable, oldValue, newValue) -> {
+                game.getBoard().setPrefHeight(newValue.doubleValue());
+                game.getBoard().draw(c1, c2, bg);
+            });*/
+
+
+            // when finished
+            runGame();
     }
 
-    public Color getColorByName(String name) {
+    public void runGame() {
+        this.game.run();
+    }
+
+    public static Color getColorByName(String name) {
         switch (name) {
             case "black":
-                return Color.black;
+                return Color.BLACK;
             case "blue":
-                return Color.blue;
+                return Color.BLUE;
             case "cyan":
-                return Color.cyan;
+                return Color.CYAN;
             case "darkGray":
-                return Color.darkGray;
+                return Color.DARKGRAY;
             case "gray":
-                return Color.gray;
+                return Color.GRAY;
             case "green":
-                return Color.green;
+                return Color.GREEN;
             case "lightGray":
-                return Color.lightGray;
+                return Color.LIGHTGRAY;
             case "magenta":
-                return Color.magenta;
+                return Color.MAGENTA;
             case "orange":
-                return Color.orange;
+                return Color.ORANGE;
             case "pink":
-                return Color.pink;
+                return Color.PINK;
             case "red":
-                return Color.red;
+                return Color.RED;
             case "white":
-                return Color.white;
+                return Color.WHITE;
             case "yellow":
-                return Color.yellow;
+                return Color.YELLOW;
             default:
-                return Color.black;
+                return Color.BLACK;
         }
     }
 }

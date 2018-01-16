@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
@@ -45,6 +46,13 @@ public class SettingsController implements Initializable {
             settings.setPlayer_1_color(firstPlayerColorBox.getValue());
             settings.setPlayer_2_color(secondPlayerColorBox.getValue());
             settings.save();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText("Settings successfully saved");
+            alert.setContentText("Let's play!");
+
+            alert.showAndWait();
 
             Stage stage = (Stage) saveButton.getScene().getWindow();
             AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("Menu.fxml"));
