@@ -8,6 +8,9 @@ public class Settings {
     String player_2_color;
     int    boardSize;
 
+    /**
+     * A constructor.
+     */
     public Settings() {
         BufferedReader is = null;
 
@@ -44,6 +47,7 @@ public class Settings {
         }
     }
 
+    // setters
     public void setPlayer_1_color(String player_1_color) {
         this.player_1_color = player_1_color;
     }
@@ -54,6 +58,10 @@ public class Settings {
         this.boardSize = boardSize;
     }
 
+    /**
+     * The method save's the settings in the file.
+     * means that writes them in the file.
+     */
     public void save() {
         OutputStreamWriter os = null;
 

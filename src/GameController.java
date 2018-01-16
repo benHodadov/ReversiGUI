@@ -2,6 +2,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
 public class GameController implements Initializable {
     private Game game;
     @FXML
-    GridPane boardPane;
+    private GridPane boardPane;
     @FXML
     private Button goMenuButton;
     @FXML
@@ -29,12 +30,11 @@ public class GameController implements Initializable {
     @FXML
     private Label secondPlayer;
     @FXML
-    private Label currentPlayer;
+    public Label currentPlayer;
     @FXML
-    private Label score1;
+    public Label score1;
     @FXML
-    private Label score2;
-
+    public Label score2;
 
     @FXML
     void goToMenu() {
@@ -93,29 +93,57 @@ public class GameController implements Initializable {
 
 
         //get the place pressed
-        game.getBoard().addEventHandler(MouseEvent.MOUSE_CLICKED, e ->{
+        /*game.getBoard().addEventHandler(MouseEvent.MOUSE_CLICKED, e ->{
             Position p = game.getBoard().getClicked();
         });
 
-        /* board resize
-            game.getBoard().widthProperty().addListener((observable, oldValue, newValue) -> {
+        //board resize
+            /*game.getBoard().widthProperty().addListener((observable, oldValue, newValue) -> {
                 double boardNewWidth = newValue.doubleValue() - 120;
                 game.getBoard().setPrefWidth(boardNewWidth);
-                game.getBoard().draw(c1, c2, bg);
+                game.getBoard().draw();
             });
 
-            game.getBoard().heightProperty().addListener((observable, oldValue, newValue) -> {
+            /*game.getBoard().heightProperty().addListener((observable, oldValue, newValue) -> {
                 game.getBoard().setPrefHeight(newValue.doubleValue());
-                game.getBoard().draw(c1, c2, bg);
+                game.getBoard().draw();
             });*/
 
-
-            // when finished
-            runGame();
+        // when finished
+        runGame();
     }
 
     public void runGame() {
-        this.game.run();
+        final Player[] playing = {game.p1};
+        System.out.println("Start game:");
+        System.out.println("player1: " + game.p1.getSign() + ", player2: " + game.p2.getSign() + "\n***********************");
+        Settings s = new Settings();
+
+        this.game.getBoard().setOnMouseClicked(e -> {
+
+
+
+        if (!game.endGame()) {
+            boolean isPlayed = this.game.playOneTurn(game.gl, game.getBoard(), playing[0]);
+            score1.setText(String.valueOf(game.getScore(game.p1)));
+            score2.setText(String.valueOf(game.getScore(game.p2)));
+            if (isPlayed) {
+                playing[0] = this.game.otherPlayer(playing[0]);
+                String playerColor = (playing[0].sign == 'X')? s.player_1_color : s.player_2_color;
+                currentPlayer.setText(playerColor);
+            }
+        } else {
+            // game over
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+            alert.setTitle("Game finished!");
+            alert.setHeaderText(game.findWinner());
+            alert.setContentText("Player 1 score = " + game.getScore(game.p1) + "\nPlayer 2 score = " + game.getScore(game.p2));
+            alert.showAndWait();
+            game.getBoard().print();
+            this.game.findWinner();
+        }
+        });
     }
 
     public static Color getColorByName(String name) {
@@ -149,5 +177,9 @@ public class GameController implements Initializable {
             default:
                 return Color.BLACK;
         }
+    }
+
+    public static void setLabelText(Label l, String text) {
+        l.setText(text);
     }
 }

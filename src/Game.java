@@ -1,4 +1,5 @@
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -9,16 +10,20 @@ import java.util.Scanner;
  * Created by benho on 08/01/2018.
  */
 public class Game {
-    private Player p1;
-    private Player p2;
+    public Player p1;
+    public Player p2;
 
     public Board getBoard() {
         return this.b;
     }
 
-    private Board b;
-    private GameLogic gl;
+    public Board b;
+    public GameLogic gl;
 
+    /**
+     * A constructor.
+     * @param boardSize int
+     */
     Game(int boardSize) {
         this.p1 = new Player('X');
         this.p2 = new Player('O');
@@ -26,18 +31,22 @@ public class Game {
         this.gl = new GameLogic();
     }
 
-
+    /**
+     * The method runs the game.
+     */
     public void run() {
         final Player[] playing = {p1};
         System.out.println("Start game:");
         System.out.println("player1: " + p1.getSign() + ", player2: " + p2.getSign() + "\n***********************");
 
-        this.b.setOnMouseClicked(e -> {
-        //this.b.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+        //this.b.setOnMouseClicked(e -> {
             if (!endGame()) {
                 boolean isPlayed = this.playOneTurn(gl, b, playing[0]);
                 if (isPlayed) {
+                    //GameController.score1.setText(String.valueOf(getScore(playing[0])));
+                    //GameController.score2.setText(String.valueOf(getScore(otherPlayer(playing[0]))));
                     playing[0] = this.otherPlayer(playing[0]);
+
                 }
             } else {
                 // game over
@@ -49,13 +58,17 @@ public class Game {
                 alert.showAndWait();
                 b.print();
                 this.findWinner();
-                return;
             }
-        });
+        //});
     }
 
-
-
+    /**
+     * The method plays one turn for a player. returns true if he played and false otherwise.
+     * @param gl GameLogic
+     * @param b Board
+     * @param p Player
+     * @return isPlayed
+     */
     public boolean playOneTurn(GameLogic gl, Board b, Player p) {
         System.out.println("Current board:");
         b.draw();
@@ -68,8 +81,12 @@ public class Game {
         // if any of the moves are legal return 0.
         if (v.size() == 0) {
             System.out.println("No possible moves. Play passes back to the other player. Press any key to continue.");
-            //Scanner reader = new Scanner(System.in);
-            //char c = reader.next().charAt(0);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Oops, there is no valid moves for you");
+            alert.setContentText("Hope your opponent will make a mistake");
+
+            alert.showAndWait();
             return true;
         }
         // print the options
@@ -84,8 +101,6 @@ public class Game {
         System.out.println("\nPlease enter your move row,col: ");
 
         final Position[] selectedPosition = {this.getPlace()};
-        System.out.println("i=" + selectedPosition[0].getRow() + ",j=" + selectedPosition[0].getCol());
-        //System.exit(0);
 
         final boolean[] isValid = {false};
         for (int i = 0; i < v.size(); i++) {
@@ -101,13 +116,15 @@ public class Game {
         }
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText("Oops, not valid move");
+        alert.setHeaderText("Oops, the chosen move is not valid");
         alert.setContentText("Please choose again");
 
         alert.showAndWait();
         return false;
     }
 
+
+    // the following methods turn the disks if needed.
     public void putAndTurnOver(GameLogic gl,Board b, int r, int c, Player p) {
         b.put(r, c, p.getSign());
 
@@ -241,11 +258,20 @@ public class Game {
         }
     }
 
+    /**
+     * The method returns true if the game is over and false otherwise.
+     * @return isOver
+     */
     public boolean endGame() {
         return ((this.gl.optionalMoves(this.b, this.p1).size() == 0)
                 && (this.gl.optionalMoves(this.b, this.p2).size() == 0));
     }
 
+    /**
+     * The method gets a player and returns his score.
+     * @param p Player
+     * @return scoreP
+     */
     public int getScore(Player p) {
         int count = 0;
         for(int i = 1; i <= b.getSize(); i ++) {
@@ -258,6 +284,10 @@ public class Game {
         return count;
     }
 
+    /**
+     * The method returns a string with the winning player. ready to be printed.
+     * @return winnerMSG
+     */
     public String findWinner() {
         int countP1 = getScore(p1);
         int countP2 = getScore(p2);
@@ -274,6 +304,11 @@ public class Game {
         }
     }
 
+    /**
+     * The method gets a player and return the other one.
+     * @param p Player
+     * @return otherPlayer
+     */
     public Player otherPlayer(Player p) {
         if (p.getSign() == this.p1.getSign()) {
             return this.p2;
@@ -283,5 +318,78 @@ public class Game {
 
     public Position getPlace() {
         return this.b.getClicked();
+    }
+
+
+
+    // the next 2 methods worked in the console. not important for this task.
+    public void consoleRun() {
+        Player playing = p1;
+        System.out.println("Start game:");
+        System.out.println("player1: " + p1.getSign() + ", player2: " + p2.getSign() + "\n***********************");
+
+        while (!this.endGame()) {
+            this.playOneTurn(gl, b, playing);
+            playing = this.otherPlayer(playing);
+        }
+        b.print();
+        this.findWinner();
+    }
+
+    public void consolePlayOneTurn(GameLogic gl, Board b, Player p) {
+        System.out.println("Current board:");
+        b.print();
+
+        System.out.println(p.getSign() + ": It's your move.\nYour possible moves: ");
+        List<Position> v = gl.optionalMoves(b, p);
+
+        // if any of the moves are legal return 0.
+        if (v.size() == 0) {
+            System.out.println("No possible moves. Play passes back to the other player. Press any key to continue.");
+            Scanner reader = new Scanner(System.in);
+            char c = reader.next().charAt(0);
+            return;
+        }
+        // print the options
+        for (int i = 0; i < v.size(); i++) {
+            Position pos = v.get(i);
+            System.out.print("(" + pos.getRow() + "," + pos.getCol() + ")");
+            if ((i + 1) != v.size()) {
+                System.out.print(",");
+            }
+        }
+
+        System.out.println("\nPlease enter your move row,col: ");
+        int r, c;
+        Scanner scn = new Scanner(System.in);
+        r = scn.nextInt();
+        c = scn.nextInt();
+        Position selectedPosition = new Position(r, c);
+
+
+        boolean isValid = false;
+        for (int i = 0; i < v.size(); i++) {
+            if (selectedPosition.isEqual(v.get(i))) {
+                isValid = true;
+                //play.
+                this.putAndTurnOver(gl, b, r, c, p);
+            }
+        }
+
+        while (!isValid) {
+            System.out.print("The selected position is not valid.\nPlease enter your move row,col: ");
+            scn = new Scanner(System.in);
+            r = scn.nextInt();
+            c = scn.nextInt();
+            selectedPosition = new Position(r, c);
+            for (int i = 0; i < v.size(); i++) {
+                if (selectedPosition.isEqual(v.get(i))) {
+                    isValid = true;
+                    //play.
+                    this.putAndTurnOver(gl, b, r, c, p);
+                    break;
+                }
+            }
+        }
     }
 }

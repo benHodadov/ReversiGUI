@@ -9,6 +9,12 @@ public class GameLogic {
 
     }
 
+    /**
+     * The method returns the player's optional moves in a list.
+     * @param b Board
+     * @param p Player
+     * @return optionalMoves
+     */
     public List<Position> optionalMoves(Board b, Player p)  {
         List<Position> om = new ArrayList<Position>();
 
@@ -26,6 +32,7 @@ public class GameLogic {
         return om;
     }
 
+    // the method checks from all sides.
     public boolean isValidMove(Board b, int row, int col, Player p)  {
         return this.checkLeft(b, row, col, p) || this.checkRight(b, row, col, p) ||
                 this.checkUp(b, row, col, p) || this.checkDown(b, row, col, p) ||
@@ -33,6 +40,7 @@ public class GameLogic {
                 this.checkDownLeft(b, row, col, p) || this.checkDownRight(b, row, col, p);
     }
 
+    // the following methods check from every direction.
     public boolean checkLeft(Board b, int row, int col, Player p){
         if (col != 1) {
             // if (col == 1) then return false.
