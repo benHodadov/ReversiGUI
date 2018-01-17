@@ -149,7 +149,8 @@ public class GameController implements Initializable {
 
             alert.setTitle("Game finished!");
             alert.setHeaderText(game.findWinner());
-            alert.setContentText("Player 1 score = " + game.getScore(game.getP1()) + "\nPlayer 2 score = " + game.getScore(game.getP2()));
+            alert.setContentText(s.player_1_color + " player score = " + game.getScore(game.getP1()) +
+                    "\n" + s.player_2_color + " player score = " + game.getScore(game.getP2()));
             alert.showAndWait();
 
             // now go to the menu
