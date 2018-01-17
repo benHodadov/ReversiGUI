@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SettingsController">
    <children>
-      <Label layoutX="40.0" layoutY="40.0" text="OtherGameFiles.Settings" underline="true">
+      <Label layoutX="40.0" layoutY="40.0" text="Settings" underline="true">
          <font>
             <Font name="Berlin Sans FB Demi Bold" size="30.0" />
          </font>
