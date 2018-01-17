@@ -1,12 +1,14 @@
+package OtherGameFiles;
+
 import java.io.*;
 
 /**
  * Created by Ben and Barak on 11-Jan-18.
  */
 public class Settings {
-    String player_1_color;
-    String player_2_color;
-    int    boardSize;
+    public String player_1_color;
+    public String player_2_color;
+    public int    boardSize;
 
     /**
      * A constructor.
@@ -67,9 +69,9 @@ public class Settings {
             os = new OutputStreamWriter(new FileOutputStream(settings));
 
             //os.write("Starting player:" + this.starting_player + "\n");
-            os.write("Player 1 color:" + this.player_1_color + "\n");
-            os.write("Player 2 color:" + this.player_2_color + "\n");
-            os.write("Board size:" + this.boardSize + "\n");
+            os.write("OtherGameFiles.Player 1 color:" + this.player_1_color + "\n");
+            os.write("OtherGameFiles.Player 2 color:" + this.player_2_color + "\n");
+            os.write("OtherGameFiles.Board size:" + this.boardSize + "\n");
 
         } catch (IOException e) {
             System.out.println("Something went wrong while writing");

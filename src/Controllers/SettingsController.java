@@ -1,3 +1,6 @@
+package Controllers;
+
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -7,13 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static java.awt.Color.*;
+import OtherGameFiles.Settings;
 
 /**
  * Created by Ben and Barak on 11/01/2018.
@@ -55,10 +56,10 @@ public class SettingsController implements Initializable {
             alert.showAndWait();
 
             Stage stage = (Stage) saveButton.getScene().getWindow();
-            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("Menu.fxml"));
+            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("../fxmlFiles/Menu.fxml"));
             Scene scene = new Scene(root,600,400);
             //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-            //stage.setTitle("Reversi Game");
+            //stage.setTitle("Reversi OtherGameFiles.Game");
             stage.setScene(scene);
             stage.show();
         } catch (Exception c) {
@@ -70,10 +71,10 @@ public class SettingsController implements Initializable {
     void back() {
         try {
             Stage stage = (Stage) backButton.getScene().getWindow();
-            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("Menu.fxml"));
+            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("../fxmlFiles/Menu.fxml"));
             Scene scene = new Scene(root,600,400);
             //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-            //stage.setTitle("Reversi Game");
+            //stage.setTitle("Reversi OtherGameFiles.Game");
             stage.setScene(scene);
             stage.show();
         } catch (Exception c) {

@@ -1,3 +1,5 @@
+package OtherGameFiles;
+
 import javafx.scene.control.Alert;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public class Game {
      * A constructor.
      * @param boardSize int
      */
-    Game(int boardSize) {
+    public Game(int boardSize) {
         this.p1 = new Player('X');
         this.p2 = new Player('O');
         this.b = new Board(boardSize);
@@ -35,8 +37,8 @@ public class Game {
             if (!endGame()) {
                 boolean isPlayed = this.playOneTurn(gl, b, playing[0]);
                 if (isPlayed) {
-                    //GameController.score1.setText(String.valueOf(getScore(playing[0])));
-                    //GameController.score2.setText(String.valueOf(getScore(otherPlayer(playing[0]))));
+                    //Controllers.GameController.score1.setText(String.valueOf(getScore(playing[0])));
+                    //Controllers.GameController.score2.setText(String.valueOf(getScore(otherPlayer(playing[0]))));
                     playing[0] = this.otherPlayer(playing[0]);
 
                 }
@@ -44,9 +46,9 @@ public class Game {
                 // game over
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-                alert.setTitle("Game finished!");
+                alert.setTitle("OtherGameFiles.Game finished!");
                 alert.setHeaderText(findWinner());
-                alert.setContentText("Player 1 score = " + getScore(p1) + "\nPlayer 2 score = " + getScore(p2));
+                alert.setContentText("OtherGameFiles.Player 1 score = " + getScore(p1) + "\nOtherGameFiles.Player 2 score = " + getScore(p2));
                 alert.showAndWait();
                 this.findWinner();
             }
@@ -55,9 +57,9 @@ public class Game {
 
     /**
      * The method plays one turn for a player. returns true if he played and false otherwise.
-     * @param gl GameLogic
-     * @param b Board
-     * @param p Player
+     * @param gl OtherGameFiles.GameLogic
+     * @param b OtherGameFiles.Board
+     * @param p OtherGameFiles.Player
      * @return isPlayed
      */
     public boolean playOneTurn(GameLogic gl, Board b, Player p) {
@@ -66,6 +68,8 @@ public class Game {
 
         // if any of the moves are legal return 0.
         if (v.size() == 0) {
+            this.b.setGridLinesVisible(false);
+            this.b.setGridLinesVisible(true);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Oops, there is no valid moves for you");
@@ -246,7 +250,7 @@ public class Game {
 
     /**
      * The method gets a player and returns his score.
-     * @param p Player
+     * @param p OtherGameFiles.Player
      * @return scoreP
      */
     public int getScore(Player p) {
@@ -283,7 +287,7 @@ public class Game {
 
     /**
      * The method gets a player and return the other one.
-     * @param p Player
+     * @param p OtherGameFiles.Player
      * @return otherPlayer
      */
     public Player otherPlayer(Player p) {

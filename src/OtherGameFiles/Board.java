@@ -1,3 +1,6 @@
+package OtherGameFiles;
+
+import Controllers.GameController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -34,7 +37,7 @@ public class Board extends GridPane {
         put(x + 1, x, 'X');
         put(x + 1, x + 1, 'O');
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Board.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../fxmlFiles/Board.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
@@ -42,7 +45,6 @@ public class Board extends GridPane {
         try {
             fxmlLoader.load();
         } catch (Exception exception) {
-            System.out.println("Error on creating board");
         }
     }
 

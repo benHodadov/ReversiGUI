@@ -1,3 +1,5 @@
+package OtherGameFiles;
+
 /**
  * Created by Ben and Barak on 08-Jan-18.
  */

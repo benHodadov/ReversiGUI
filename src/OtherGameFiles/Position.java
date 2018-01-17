@@ -1,3 +1,5 @@
+package OtherGameFiles;
+
 /**
  * Created by Ben and Barak on 08-Jan-18.
  */
@@ -21,7 +23,7 @@ public class Position {
 
     /**
      * The method returns true if they are equal and false otherwise.
-     * @param other Position
+     * @param other OtherGameFiles.Position
      * @return isEqual
      */
     public boolean isEqual(Position other) {

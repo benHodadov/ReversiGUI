@@ -1,4 +1,5 @@
-import javafx.application.Application;
+package Controllers;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,10 +35,10 @@ public class MenuController implements Initializable {
         try {
             Stage stage = (Stage) settingsHyperlink.getScene().getWindow();
             //stage.close();
-            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("Settings.fxml"));
+            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("../fxmlFiles/Settings.fxml"));
             Scene scene = new Scene(root,600,400);
             //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-            //stage.setTitle("Reversi Game");
+            //stage.setTitle("Reversi OtherGameFiles.Game");
             stage.setScene(scene);
             stage.show();
         } catch (Exception c) {
@@ -51,7 +52,7 @@ public class MenuController implements Initializable {
         try {
             Stage stage = (Stage) startHyperlink.getScene().getWindow();
             //stage.close();
-            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("Game.fxml"));
+            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("../fxmlFiles/Game.fxml"));
             Scene scene = new Scene(root,600,400);
             stage.setScene(scene);
             stage.show();

@@ -1,3 +1,8 @@
+package Controllers;
+
+import OtherGameFiles.Game;
+import OtherGameFiles.Player;
+import OtherGameFiles.Settings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -5,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -41,10 +45,10 @@ public class GameController implements Initializable {
         try {
             Stage stage = (Stage) goMenuButton.getScene().getWindow();
             //stage.close();
-            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("Menu.fxml"));
+            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("../fxmlFiles/Menu.fxml"));
             Scene scene = new Scene(root,600,400);
             //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-            //stage.setTitle("Reversi Game");
+            //stage.setTitle("Reversi OtherGameFiles.Game");
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
@@ -94,7 +98,7 @@ public class GameController implements Initializable {
 
         //get the place pressed
         /*game.getBoard().addEventHandler(MouseEvent.MOUSE_CLICKED, e ->{
-            Position p = game.getBoard().getClicked();
+            OtherGameFiles.Position p = game.getBoard().getClicked();
         });
 
         //board resize
@@ -125,7 +129,7 @@ public class GameController implements Initializable {
             score2.setText(String.valueOf(game.getScore(game.getP2())));
             if (isPlayed) {
                 playing[0] = this.game.otherPlayer(playing[0]);
-                String playerColor = (playing[0].sign == 'X')? s.player_1_color : s.player_2_color;
+                String playerColor = (playing[0].getSign() == 'X')? s.player_1_color : s.player_2_color;
                 currentPlayer.setText(playerColor);
             }
         } else {
@@ -136,7 +140,6 @@ public class GameController implements Initializable {
             alert.setHeaderText(game.findWinner());
             alert.setContentText("Player 1 score = " + game.getScore(game.getP1()) + "\nPlayer 2 score = " + game.getScore(game.getP2()));
             alert.showAndWait();
-            game.getBoard().print();
             this.game.findWinner();
         }
         });

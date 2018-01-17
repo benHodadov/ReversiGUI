@@ -1,3 +1,5 @@
+package OtherGameFiles;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +13,8 @@ public class GameLogic {
 
     /**
      * The method returns the player's optional moves in a list.
-     * @param b Board
-     * @param p Player
+     * @param b OtherGameFiles.Board
+     * @param p OtherGameFiles.Player
      * @return optionalMoves
      */
     public List<Position> optionalMoves(Board b, Player p)  {
