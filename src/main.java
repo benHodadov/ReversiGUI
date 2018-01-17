@@ -1,5 +1,5 @@
 /**
- * Created by Barak on 08-Jan-18.
+ * Created by Ben and Barak on 08-Jan-18.
  */
 
 import javafx.application.Application;
@@ -19,17 +19,15 @@ import java.awt.event.ActionEvent;
 public class main extends Application {
 
     public static void main(String[] args) {
-        //Game g = new Game(3);
-        //g.run();
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
+        // run the opening menu.
         try {
             AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("Menu.fxml"));
             Scene scene = new Scene(root,600,400);
-            //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setTitle("Reversi Game");
             primaryStage.setScene(scene);
             primaryStage.show();

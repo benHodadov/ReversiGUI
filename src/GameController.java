@@ -114,19 +114,15 @@ public class GameController implements Initializable {
     }
 
     public void runGame() {
-        final Player[] playing = {game.p1};
-        System.out.println("Start game:");
-        System.out.println("player1: " + game.p1.getSign() + ", player2: " + game.p2.getSign() + "\n***********************");
+        final Player[] playing = {game.getP1()};
         Settings s = new Settings();
 
+        this.game.getBoard().setGridLinesVisible(true);
         this.game.getBoard().setOnMouseClicked(e -> {
-
-
-
-        if (!game.endGame()) {
-            boolean isPlayed = this.game.playOneTurn(game.gl, game.getBoard(), playing[0]);
-            score1.setText(String.valueOf(game.getScore(game.p1)));
-            score2.setText(String.valueOf(game.getScore(game.p2)));
+            if (!game.endGame()) {
+            boolean isPlayed = this.game.playOneTurn(game.getGl(), game.getBoard(), playing[0]);
+            score1.setText(String.valueOf(game.getScore(game.getP1())));
+            score2.setText(String.valueOf(game.getScore(game.getP2())));
             if (isPlayed) {
                 playing[0] = this.game.otherPlayer(playing[0]);
                 String playerColor = (playing[0].sign == 'X')? s.player_1_color : s.player_2_color;
@@ -138,7 +134,7 @@ public class GameController implements Initializable {
 
             alert.setTitle("Game finished!");
             alert.setHeaderText(game.findWinner());
-            alert.setContentText("Player 1 score = " + game.getScore(game.p1) + "\nPlayer 2 score = " + game.getScore(game.p2));
+            alert.setContentText("Player 1 score = " + game.getScore(game.getP1()) + "\nPlayer 2 score = " + game.getScore(game.getP2()));
             alert.showAndWait();
             game.getBoard().print();
             this.game.findWinner();
@@ -177,9 +173,5 @@ public class GameController implements Initializable {
             default:
                 return Color.BLACK;
         }
-    }
-
-    public static void setLabelText(Label l, String text) {
-        l.setText(text);
     }
 }

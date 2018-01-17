@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 import static java.awt.Color.*;
 
 /**
- * Created by benho on 11/01/2018.
+ * Created by Ben and Barak on 11/01/2018.
  */
 public class SettingsController implements Initializable {
     private ObservableList<Integer> sizesList = FXCollections.observableArrayList

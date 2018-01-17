@@ -67,6 +67,66 @@ public class Board extends GridPane {
     }
 
     /**
+     * The method get for the board's size
+     * @return size
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * The method draws the board in the gui.
+     */
+    public void draw() {
+        // get the wanted colors
+        Settings settings = new Settings();
+        Color c1 = GameController.getColorByName(settings.player_1_color);
+        Color c2 = GameController.getColorByName(settings.player_2_color);
+        Color bg = GameController.getColorByName("lightGray");
+
+        this.getChildren().clear();
+        // calculate the cell's size
+        double height = this.getPrefHeight();
+        double width  = this.getPrefWidth();
+        double cellHeight = height / board.length;
+        double cellWidth  = width  / board.length;
+
+        // paint the board
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                Rectangle r;
+                if (board[i][j] == 'X') {
+                    r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
+                    this.add(r, j, i);
+                    r.setFill(c1);
+                } else if (board[i][j] == 'O') {
+                    r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
+                    this.add(r, j, i);
+                    r.setFill(c2);
+                } else {
+                    r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
+                    this.add(r, j, i);
+                    r.setFill(bg);
+                }
+                final int finalI = i;
+                final int finalJ = j;
+                r.addEventHandler(MouseEvent.MOUSE_CLICKED, b -> { this.clicked = new Position(finalI, finalJ); });
+            }
+        }
+        this.setGridLinesVisible(true);
+        this.setGridLinesVisible(false);
+    }
+
+    /**
+     * The method returns the position clicked
+     * @return positionClicked
+     */
+    public Position getClicked() {
+        Position temp = this.clicked;
+        return new Position(temp.getRow() + 1, temp.getCol() + 1);
+    }
+
+    /**
      * The method paints the board in the console.
      */
     public void print() {
@@ -91,65 +151,5 @@ public class Board extends GridPane {
             }
             System.out.println("\n----------------------------------");
         }
-    }
-
-    /**
-     * The method get for the board's size
-     * @return size
-     */
-    public int getSize() {
-        return size;
-    }
-
-    /**
-     * The method draws the board in the gui.
-     */
-    public void draw() {
-        // get the wanted colors
-        Settings settings = new Settings();
-        Color c1 = GameController.getColorByName(settings.player_1_color);
-        Color c2 = GameController.getColorByName(settings.player_2_color);
-        Color bg = GameController.getColorByName("lightGray");
-
-        //this.getChildren().clear();
-        // calculate the cell's size
-        double height = this.getPrefHeight();
-        double width  = this.getPrefWidth();
-        double cellHeight = height / board.length;
-        double cellWidth  = width  / board.length;
-
-        // paint the board
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                Rectangle r;
-                if (board[i][j] == 'X') {
-                    //Rectangle r = new Rectangle(cellWidth, cellHeight);
-                    r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
-                    this.add(r, j, i);
-                    r.setFill(c1);
-                } else if (board[i][j] == 'O') {
-                    r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
-                    this.add(r, j, i);
-                    r.setFill(c2);
-                } else {
-                    r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
-                    this.add(r, j, i);
-                    r.setFill(bg);
-                }
-                final int finalI = i;
-                final int finalJ = j;
-                r.addEventHandler(MouseEvent.MOUSE_CLICKED, b -> { this.clicked = new Position(finalI, finalJ); });
-            }
-        }
-        this.setGridLinesVisible(true);
-    }
-
-    /**
-     * The method returns the position clicked
-     * @return positionClicked
-     */
-    public Position getClicked() {
-        Position temp = this.clicked;
-        return new Position(temp.getRow() + 1, temp.getCol() + 1);
     }
 }

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Barak on 08-Jan-18.
+ * Created by Ben and Barak on 08-Jan-18.
  */
 public class GameLogic {
     public GameLogic() {

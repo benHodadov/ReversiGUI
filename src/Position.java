@@ -1,5 +1,5 @@
 /**
- * Created by Barak on 08-Jan-18.
+ * Created by Ben and Barak on 08-Jan-18.
  */
 public class Position {
     private int row;

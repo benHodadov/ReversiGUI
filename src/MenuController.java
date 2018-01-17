@@ -3,7 +3,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -12,7 +11,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by benho on 10/01/2018.
+ * Created by Ben and Barak on 10/01/2018.
  */
 public class MenuController implements Initializable {
     @FXML
@@ -24,12 +23,14 @@ public class MenuController implements Initializable {
 
     @FXML
     void Quit() {
+        // quits the game
         Stage stage = (Stage) quitButton.getScene().getWindow();
         stage.close();
     }
 
     @FXML
     void goSettings() {
+        // go to settings page
         try {
             Stage stage = (Stage) settingsHyperlink.getScene().getWindow();
             //stage.close();
@@ -46,13 +47,12 @@ public class MenuController implements Initializable {
 
     @FXML
     void startGame() {
+        // go to the game page and start the game!
         try {
             Stage stage = (Stage) startHyperlink.getScene().getWindow();
             //stage.close();
             AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("Game.fxml"));
             Scene scene = new Scene(root,600,400);
-            //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-            //stage.setTitle("Reversi Game");
             stage.setScene(scene);
             stage.show();
         } catch (Exception c) {

@@ -1,24 +1,16 @@
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by benho on 08/01/2018.
+ * Created by Ben and Barak on 08/01/2018.
  */
 public class Game {
-    public Player p1;
-    public Player p2;
-
-    public Board getBoard() {
-        return this.b;
-    }
-
-    public Board b;
-    public GameLogic gl;
+    private Player p1;
+    private Player p2;
+    private Board b;
+    private GameLogic gl;
 
     /**
      * A constructor.
@@ -32,7 +24,7 @@ public class Game {
     }
 
     /**
-     * The method runs the game.
+     * The method runs the game. later copied to the gameController.
      */
     public void run() {
         final Player[] playing = {p1};
@@ -56,7 +48,6 @@ public class Game {
                 alert.setHeaderText(findWinner());
                 alert.setContentText("Player 1 score = " + getScore(p1) + "\nPlayer 2 score = " + getScore(p2));
                 alert.showAndWait();
-                b.print();
                 this.findWinner();
             }
         //});
@@ -70,39 +61,23 @@ public class Game {
      * @return isPlayed
      */
     public boolean playOneTurn(GameLogic gl, Board b, Player p) {
-        System.out.println("Current board:");
         b.draw();
-        b.setGridLinesVisible(true);
-        b.print();
-
-        System.out.println(p.getSign() + ": It's your move.\nYour possible moves: ");
         List<Position> v = gl.optionalMoves(b, p);
 
         // if any of the moves are legal return 0.
         if (v.size() == 0) {
-            System.out.println("No possible moves. Play passes back to the other player. Press any key to continue.");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Oops, there is no valid moves for you");
             alert.setContentText("Hope your opponent will make a mistake");
 
             alert.showAndWait();
+            // the player has no moves sp we need to change the playing player. return true,
             return true;
         }
-        // print the options
-        for (int i = 0; i < v.size(); i++) {
-            Position pos = v.get(i);
-            System.out.print("(" + pos.getRow() + "," + pos.getCol() + ")");
-            if ((i + 1) != v.size()) {
-                System.out.print(",");
-            }
-        }
-
-        System.out.println("\nPlease enter your move row,col: ");
-
         final Position[] selectedPosition = {this.getPlace()};
-
         final boolean[] isValid = {false};
+
         for (int i = 0; i < v.size(); i++) {
             if (selectedPosition[0].isEqual(v.get(i))) {
                 isValid[0] = true;
@@ -114,6 +89,8 @@ public class Game {
                 return true;
             }
         }
+        this.b.setGridLinesVisible(false);
+        this.b.setGridLinesVisible(true);
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("Oops, the chosen move is not valid");
@@ -319,6 +296,22 @@ public class Game {
     public Position getPlace() {
         return this.b.getClicked();
     }
+
+    // getters
+    public Board getBoard() {
+        return this.b;
+    }
+    public Player getP1() {
+        return p1;
+    }
+    public Player getP2() {
+        return p2;
+    }
+    public GameLogic getGl() {
+        return gl;
+    }
+
+
 
 
 

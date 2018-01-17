@@ -1,7 +1,7 @@
 import java.io.*;
 
 /**
- * Created by Barak on 11-Jan-18.
+ * Created by Ben and Barak on 11-Jan-18.
  */
 public class Settings {
     String player_1_color;
@@ -21,17 +21,14 @@ public class Settings {
             String data = is.readLine();
             String[] parts = data.split(":") ;
             this.player_1_color = parts[1];
-            //System.out.println("Player 1 color is -" + this.player_1_color);
 
             data = is.readLine();
             parts = data.split(":") ;
             this.player_2_color = parts[1];
-            //System.out.println("Player 2 color is -" + this.player_2_color);
 
             data = is.readLine();
             parts = data.split(":") ;
             this.boardSize = Integer.parseInt(parts[1]);
-            //System.out.println("The size of the board is -" + this.boardSize);
 
         } catch (Exception e) {
             System.out.println("ERROR 404: file not found !");
