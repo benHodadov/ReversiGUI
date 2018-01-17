@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -18,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -42,18 +44,27 @@ public class GameController implements Initializable {
 
     @FXML
     void goToMenu() {
-        try {
-            Stage stage = (Stage) goMenuButton.getScene().getWindow();
-            //stage.close();
-            AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("../fxmlFiles/Menu.fxml"));
-            Scene scene = new Scene(root,600,400);
-            //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-            //stage.setTitle("Reversi OtherGameFiles.Game");
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            System.out.print("ERROR");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("You are going to leave the game");
+        alert.setContentText("Are you sure?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            try {
+                Stage stage = (Stage) goMenuButton.getScene().getWindow();
+                //stage.close();
+                AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("../fxmlFiles/Menu.fxml"));
+                Scene scene = new Scene(root,600,400);
+                //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+                //stage.setTitle("Reversi OtherGameFiles.Game");
+                stage.setScene(scene);
+                stage.show();
+            } catch (Exception e) {
+                System.out.print("ERROR");
+            }
         }
+
     }
 
 
@@ -140,7 +151,19 @@ public class GameController implements Initializable {
             alert.setHeaderText(game.findWinner());
             alert.setContentText("Player 1 score = " + game.getScore(game.getP1()) + "\nPlayer 2 score = " + game.getScore(game.getP2()));
             alert.showAndWait();
-            this.game.findWinner();
+
+            // now go to the menu
+                try {
+                    Stage stage = (Stage) goMenuButton.getScene().getWindow();
+                    AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("../fxmlFiles/Menu.fxml"));
+                    Scene scene = new Scene(root,600,400);
+                    //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+                    //stage.setTitle("Reversi OtherGameFiles.Game");
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (Exception c) {
+                    System.out.print("ERROR");
+                }
         }
         });
     }

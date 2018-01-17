@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -97,14 +98,21 @@ public class Board extends GridPane {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 Rectangle r;
+                Circle c;
                 if (board[i][j] == 'X') {
+                    c = new Circle(cellWidth/2, c1);
                     r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
                     this.add(r, j, i);
-                    r.setFill(c1);
+                    this.add(c, j, i);
+                    c.setFill(c1);
+                    r.setFill(bg);
                 } else if (board[i][j] == 'O') {
+                    c = new Circle(cellWidth/2, c2);
                     r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
                     this.add(r, j, i);
-                    r.setFill(c2);
+                    this.add(c, j, i);
+                    c.setFill(c2);
+                    r.setFill(bg);
                 } else {
                     r = new Rectangle(i * cellHeight, j * cellWidth, cellWidth, cellHeight);
                     this.add(r, j, i);

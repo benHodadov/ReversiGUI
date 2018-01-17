@@ -270,15 +270,14 @@ public class Game {
      * @return winnerMSG
      */
     public String findWinner() {
+        Settings settings = new Settings();
         int countP1 = getScore(p1);
         int countP2 = getScore(p2);
 
         if (countP1 > countP2) {
-            //System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX\nPlayer 1 is the winner !!\nXXXXXXXXXXXXXXXXXXXXXXXXX");
-            return "Player 1 is the winner !!";
+            return "The " + settings.player_1_color + " player is the winner !!";
         } else if (countP1 < countP2) {
-            //System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOO\nPlayer 2 is the winner !!\nOOOOOOOOOOOOOOOOOOOOOOOOO");
-            return "Player 2 is the winner !!";
+            return "The " + settings.player_2_color + " player is the winner !!";
         } else {
             //System.out.println("-------------------------\nIt's a draw !!\n-------------------------");
             return "It's a draw !!";
